@@ -166,16 +166,16 @@ def get_USD_balance():
 
 get_USD_balance()
 
-def is_bought():
-  client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')    
-  fiat=get_USD_balance()
-  cryp=get_BTC_balance()
-  if fiat<0.01:
-    return(True)
-  else: 
-    return(False)
+#def is_bought():
+  #client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')    
+  #fiat=get_USD_balance()
+  #cryp=get_BTC_balance()
+  #if fiat<0.01:
+    #return(True)
+  #else: 
+    #return(False)
 
-is_bought()
+#is_bought()
 
 #Lancement de la boucle infinie
 
@@ -217,7 +217,8 @@ while True:
 
 
 
-  if action[0]>=action[1] and not is_bought() and it!=0:
+  if action[0]>=action[1] and not is_bought and it!=0:
+      is_bought=True
       print("Buy: " + formatPrice(prix1[-1]))
       quantityBuy = truncate(float(fiatAmount)/prix1[-1], myTruncate)
       #buyOrder = client.place_order(market=pairSymbol,side="buy",price=None,size=quantityBuy,type='market') #On achete
@@ -230,7 +231,7 @@ while True:
       
 
 
-  elif action[1]>action[0] and is_bought() and it!=0:
+  elif action[1]>action[0] and is_bought and it!=0:
       is_bought=False
       #buyOrder = client.place_order(market=pairSymbol,side="sell",price=None,size=truncate(cryptoAmount, myTruncate),type='market')
       try:
