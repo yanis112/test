@@ -9,5 +9,5 @@ numpy==1.21.6
 
 python-binance==1.0.16
 
-tensorflow==2.8.2+zzzcolab20220527125636
+tensorflow==2.9.0
 
