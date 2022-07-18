@@ -175,7 +175,7 @@ def is_bought():
   else: 
     return(False)
 
-is_bough()
+is_bought()
 
 #Lancement de la boucle infinie
 
