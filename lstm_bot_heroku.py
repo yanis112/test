@@ -178,7 +178,7 @@ get_USD_balance()
 #is_bought()
 
 #Lancement de la boucle infinie
-
+is_bought=True
 while True:
 
   #Connexion à FTX
