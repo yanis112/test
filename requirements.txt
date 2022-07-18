@@ -7,7 +7,7 @@ matplotlib==3.5.2
 datetime>=3.9.0
 numpy==1.21.6
 ta==0.10.1
-math>=3.9.0
+python-math>=3.9.0
 python-binance==1.0.16
 smtplib>=3.9.0
 tensorflow-cpu==2.9.0
