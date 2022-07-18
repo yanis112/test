@@ -1,1 +1,1 @@
-worker: python script.py
+worker: python lstm_bot_heroku.py
