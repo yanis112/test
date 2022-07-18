@@ -3,8 +3,6 @@ ftx==1.2.0
 
 keras==2.9.0
 
-matplotlib==3.2.2
-
 numpy==1.21.6
 
 python-binance==1.0.16
