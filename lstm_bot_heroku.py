@@ -180,72 +180,70 @@ get_USD_balance()
 #is_bought()
 
 #Lancement de la boucle infinie
-is_bought=True
-while True:
+is_bought=False
 
-  #Connexion à FTX
-  pairSymbol =  'BTC/USD'         
-  fiatSymbol = 'USD'                 
-  cryptoSymbol = 'BTC'             
-  myTruncate = 4                  
-  client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')                 
+#Connexion à FTX
+pairSymbol =  'BTC/USD'         
+fiatSymbol = 'USD'                 
+cryptoSymbol = 'BTC'             
+myTruncate = 4                  
+client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')                 
     
-  # Récupérer les montants
+# Récupérer les montants
     
-  fiatAmount=get_USD_balance()
-  fiatAmount=1000
-  cryptoAmount=get_BTC_balance()
+fiatAmount=get_USD_balance()
+fiatAmount=1000
+cryptoAmount=get_BTC_balance()
 
-  #Récupération des prix
-  api_key='K2MmwHx4c4xKDP0LWSfuDCNMuFUOtU64U4OKuRYncY7ZPCPgJEUIW9xucrdrI5UV'
-  api_secret='iLb0ZDB1bKMZ8o6mTXAW5xtmF4ULtwDigVuQLXCntUh0MUesjfA5jcndAJdAxrc4'
-  client_binance=binance.client.Client(api_key,api_secret)
-  client_binance.get_account()
-  data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','1h','10000 m ago UTC'))  #'30 m ago UTC'
-  prix=data2[1].tolist()
-  volume=data2[5].tolist()
-  prix1=destring(prix) 
-  volume1=destring(volume) 
+#Récupération des prix
+api_key='K2MmwHx4c4xKDP0LWSfuDCNMuFUOtU64U4OKuRYncY7ZPCPgJEUIW9xucrdrI5UV'
+api_secret='iLb0ZDB1bKMZ8o6mTXAW5xtmF4ULtwDigVuQLXCntUh0MUesjfA5jcndAJdAxrc4'
+client_binance=binance.client.Client(api_key,api_secret)
+client_binance.get_account()
+data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','1h','10000 m ago UTC'))  #'30 m ago UTC'
+prix=data2[1].tolist()
+volume=data2[5].tolist()
+prix1=destring(prix) 
+volume1=destring(volume) 
 
-  state_pri = np.array(prix1[-31:-1])
-  state_vol = np.array(volume1[-31:-1])
-  state_pri=denoiser.predict(np.array([normalize(state_pri)]))[0].reshape(1,-1)[0]
-  state_vol=denoiser.predict(np.array([normalize(state_vol)]))[0].reshape(1,-1)[0]
-
-
-  #on détermine l'action
-  action=model.predict(np.array([merge(state_pri,state_vol)]))[0]
+state_pri = np.array(prix1[-31:-1])
+state_vol = np.array(volume1[-31:-1])
+state_pri=denoiser.predict(np.array([normalize(state_pri)]))[0].reshape(1,-1)[0]
+state_vol=denoiser.predict(np.array([normalize(state_vol)]))[0].reshape(1,-1)[0]
 
 
+#on détermine l'action
+action=model.predict(np.array([merge(state_pri,state_vol)]))[0]
 
 
-  if action[0]>=action[1] and not is_bought and it!=0:
-      is_bought=True
-      print("Buy: " + formatPrice(prix1[-1]))
-      quantityBuy = truncate(float(fiatAmount)/prix1[-1], myTruncate)
-      #buyOrder = client.place_order(market=pairSymbol,side="buy",price=None,size=quantityBuy,type='market') #On achete
-      try:
-        buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=prix1[-1],size=quantityBuy)
-      except :
-        send("buy failed")
+
+
+if action[0]>=action[1] and not is_bought and it!=0:
+    is_bought=True
+    print("Buy: " + formatPrice(prix1[-1]))
+    quantityBuy = truncate(float(fiatAmount)/prix1[-1], myTruncate)
+    #buyOrder = client.place_order(market=pairSymbol,side="buy",price=None,size=quantityBuy,type='market') #On achete
+    try:
+       buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=prix1[-1],size=quantityBuy)
+    except :
+       send("buy failed")
       #print(buyOrder)
-      coin=fiatAmount/prix1[-1]
+    coin=fiatAmount/prix1[-1]
       
 
 
-  elif action[1]>action[0] and is_bought and it!=0:
-      is_bought=False
-      #buyOrder = client.place_order(market=pairSymbol,side="sell",price=None,size=truncate(cryptoAmount, myTruncate),type='market')
-      try:
-         sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=state_pri[-1],size=quantityBuy)
-      except:
+elif action[1]>action[0] and is_bought and it!=0:
+    is_bought=False
+    #buyOrder = client.place_order(market=pairSymbol,side="sell",price=None,size=truncate(cryptoAmount, myTruncate),type='market')
+    try:
+       sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=state_pri[-1],size=quantityBuy)
+    except:
         send("sell failed")
       print(buyOrder)   
     
       
       
-  else :
-      print("hold")
-      send("holding")
+else :
+    print("hold")
+    send("holding")
   
-  time.sleep(60*5)
