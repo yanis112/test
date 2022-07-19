@@ -227,7 +227,7 @@ if action[0]>=action[1] and not is_bought and it!=0:
        buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=prix1[-1],size=quantityBuy)
     except :
        send("buy failed")
-      #print(buyOrder)
+       #print(buyOrder)
     coin=fiatAmount/prix1[-1]
       
 
@@ -239,7 +239,7 @@ elif action[1]>action[0] and is_bought and it!=0:
        sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=state_pri[-1],size=quantityBuy)
     except:
         send("sell failed")
-      print(buyOrder)   
+    print(buyOrder)   
     
       
       
