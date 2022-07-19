@@ -218,7 +218,7 @@ action=model.predict(np.array([merge(state_pri,state_vol)]))[0]
 
 
 
-if action[0]>=action[1] and not is_bought and it!=0:
+if action[0]>=action[1] and not is_bought :
     is_bought=True
     print("Buy: " + formatPrice(prix1[-1]))
     quantityBuy = truncate(float(fiatAmount)/prix1[-1], myTruncate)
@@ -232,7 +232,7 @@ if action[0]>=action[1] and not is_bought and it!=0:
       
 
 
-elif action[1]>action[0] and is_bought and it!=0:
+elif action[1]>action[0] and is_bought :
     is_bought=False
     #buyOrder = client.place_order(market=pairSymbol,side="sell",price=None,size=truncate(cryptoAmount, myTruncate),type='market')
     try:
