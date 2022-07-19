@@ -30,7 +30,7 @@ import math
 import smtplib
 
 
-print(trdff)
+
 
 #!pip freeze > requirements.txt
 
