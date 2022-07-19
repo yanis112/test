@@ -1,4 +1,4 @@
-apscheduler==3.0.1
+apscheduler==3.9.1
 pandas==1.4.3
 requests==2.28.1
 ftx==1.2.0
