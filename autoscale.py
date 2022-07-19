@@ -1,6 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 import lstm_bot_heroku
-
+from lstm_bot_heroku import trade
 
 sched = BlockingScheduler()
 
@@ -8,7 +8,7 @@ sched = BlockingScheduler()
 @sched.scheduled_job('interval', minutes=5)
 def job():
     print('This job is run every minute.')
-    lstm_bot_heroku.trade()
+    trade()
 
 
 sched.start()
