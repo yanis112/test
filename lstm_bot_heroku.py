@@ -29,7 +29,7 @@ import ta
 import math
 import smtplib
 
-
+print(ffjk)
 
 
 #!pip freeze > requirements.txt
