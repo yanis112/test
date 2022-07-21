@@ -30,7 +30,7 @@ import math
 import smtplib
 import time
 
-print(ffjk)
+
 
 
 #!pip freeze > requirements.txt
