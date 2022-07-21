@@ -5,7 +5,7 @@ from lstm_bot_heroku import trade
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('interval', minutes=5)
+@sched.scheduled_job('interval', minutes=30)
 def job():
     print('This job is run every minute.')
     trade()
