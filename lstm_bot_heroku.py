@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1mWbEW0DFZOJiS6cHAyBalU8xFljfl0eg
 """
 
-#!pip install python_binance 
 import numpy as np
 import random
 import pandas as pd
