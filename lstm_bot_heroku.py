@@ -222,7 +222,7 @@ def trade():
     if action[0]>=action[1] and not is_bought() :
         is_bought=True
         print("Buy: " + formatPrice(prix1[-1]))
-        quantityBuy = truncate(float(fiatAmount)/prix1[-1])
+        quantityBuy = float(fiatAmount)/prix1[-1]
         for i in range(3):
             time.sleep(20)
             try:
