@@ -177,7 +177,7 @@ def trade():
       client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')    
       fiat=get_USD_balance()
       cryp=get_BTC_balance()
-      if fiat<0.1:
+      if fiat<2:
         return(True)
       else: 
         return(False)
