@@ -168,7 +168,7 @@ def trade():
       cryptoSymbol = 'BTC'              
       client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')
       balance = client_ftx.get_balances()
-      btc_total = [b['total'] for b in balance if b['coin'] == 'USD']
+      btc_total = [b['total'] for b in balance if b['coin']=='USD']
       return(btc_total[0])
 
     print("USD:",get_USD_balance())
@@ -236,7 +236,7 @@ def trade():
         is_bought=False
         print("Sell")
         try:
-           sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount)
+           sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
            send("sell done")
         except:
             send("sell failed")
