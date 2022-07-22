@@ -223,23 +223,27 @@ def trade():
         is_bought=True
         print("Buy: " + formatPrice(prix1[-1]))
         quantityBuy = truncate(float(fiatAmount)/prix1[-1])
-        try:
-           buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
-           send("buy done:  "+str(buyOrder))
-        except :
-           send("buy failed:  "+str(buyOrder))
-        coin=fiatAmount/prix1[-1]
+        for i in range(3):
+            time.sleep(10)
+            try:
+               buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
+               send("buy done:  "+str(buyOrder))
+            except :
+               send("buy failed:  "+str(buyOrder))
+     
 
 
 
     elif action[1]>action[0] and is_bought() :
         is_bought=False
         print("Sell:  "+str(sellOrder))
-        try:
-           sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
-           send("sell done:  "+str(sellOrder))
-        except:
-            send("sell failed")
+        for i in range(3):
+            time.sleep(10)
+            try:
+               sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
+               send("sell done:  "+str(sellOrder))
+            except:
+                send("sell failed")
 
 
 
