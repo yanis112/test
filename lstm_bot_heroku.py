@@ -207,8 +207,8 @@ def trade():
     prix1=destring(prix) 
     volume1=destring(volume) 
 
-    state_pri = np.array(prix1[-31:1])
-    state_vol = np.array(volume1[-31:1])
+    state_pri = np.array(prix1[-30:])
+    state_vol = np.array(volume1[-30:])
     state_pri=denoiser.predict(np.array([normalize(state_pri)]))[0].reshape(1,-1)[0]
     state_vol=denoiser.predict(np.array([normalize(state_vol)]))[0].reshape(1,-1)[0]
 
