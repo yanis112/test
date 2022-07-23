@@ -201,14 +201,14 @@ def trade():
     api_secret='iLb0ZDB1bKMZ8o6mTXAW5xtmF4ULtwDigVuQLXCntUh0MUesjfA5jcndAJdAxrc4'
     client_binance=binance.client.Client(api_key,api_secret)
     client_binance.get_account()
-    data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','10000 m ago UTC'))  #'30 m ago UTC'
+    data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','1000 m ago UTC'))  #'30 m ago UTC'
     prix=data2[1].tolist()
     volume=data2[5].tolist()
     prix1=destring(prix) 
     volume1=destring(volume) 
 
-    state_pri = np.array(prix1[-31:-1])
-    state_vol = np.array(volume1[-31:-1])
+    state_pri = np.array(prix1[-31:1])
+    state_vol = np.array(volume1[-31:1])
     state_pri=denoiser.predict(np.array([normalize(state_pri)]))[0].reshape(1,-1)[0]
     state_vol=denoiser.predict(np.array([normalize(state_vol)]))[0].reshape(1,-1)[0]
 
