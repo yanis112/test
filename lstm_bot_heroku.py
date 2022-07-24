@@ -61,7 +61,7 @@ def trade():
       mail.sendmail(email_smtp, email_destinataire, mail_content)
       mail.close()
 
-    send("coucou yanis")
+    
 
     #récuérer les poids du Denoiser et du LSTM grâce à GitHub
     #!git clone https://github.com/yanis112/LSTM_weight.git
@@ -226,9 +226,9 @@ def trade():
             time.sleep(20)
             try:
                buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
-               send("buy done")
+               print("buy done")
             except :
-               send("buy failed")
+               print("buy failed")
      
 
 
@@ -239,9 +239,9 @@ def trade():
             time.sleep(20)
             try:
                sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
-               send("sell done")
+               print("sell done")
             except:
-                send("sell failed")
+               print("sell failed")
 
 
 
