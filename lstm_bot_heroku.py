@@ -222,13 +222,24 @@ def trade():
     if action[0]>=action[1] and not is_bought() :
         print("Buy: " + formatPrice(prix1[-1]))
         quantityBuy = float(fiatAmount)/prix1[-1]
-        for i in range(3):
-            time.sleep(20)
-            try:
-               buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
-               print("buy done")
-            except :
-               print("buy failed")
+        time.sleep(20)
+        try:
+            buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
+            print("buy done")
+        except :
+               print("buy failed, trying again")
+               time.sleep(20)
+               try:
+                    buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
+                    print("buy done")
+               except :
+                   print("buy failed, trying again")
+                   time.sleep(20)
+                   try:
+                        buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
+                        print("buy done")
+                   except :
+                        print("failed")
      
 
 
@@ -241,8 +252,20 @@ def trade():
                sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
                print("sell done")
             except:
-               print("sell failed")
-
+               print("sell failed, trying again")
+               time.sleep(20)
+               try:
+                   sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
+                   print("sell done")
+               except:
+                   print("sell failed,trying again")
+                   time.sleep(20)
+                   try:
+                         sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
+                         print("sell done")
+                   except:
+                         print("failed")
+                             
 
 
 
