@@ -42,25 +42,6 @@ def trade():
     def formatPrice(n):
         return ("-$" if n < 0 else "$") + "{0:.2f}".format(abs(n))
 
-    def send(mess):
-      # Configuration SMTP | Ici ajusté pour fonctionné avec Gmail
-      host_smtp = "smtp.gmail.com"
-      port_smtp = 587
-      email_smtp = "amadofuentescarrillo2@gmail.com" # Mon email Gmail
-      mdp_smtp = "vkqdzmoyjuspziww"  # Mon mot de passe
-
-      # Configuration du mail
-      email_destinataire = "yanisyanis545@gmail.com"
-      mail_content = mess
-
-      # Création de l'objet mail
-      mail = smtplib.SMTP(host_smtp, port_smtp) # cette configuration fonctionne pour gmail
-      mail.ehlo() # protocole pour SMTP étendu
-      mail.starttls() # email crypté
-      mail.login(email_smtp, mdp_smtp)
-      mail.sendmail(email_smtp, email_destinataire, mail_content)
-      mail.close()
-
     
 
     #récuérer les poids du Denoiser et du LSTM grâce à GitHub
@@ -271,5 +252,5 @@ def trade():
 
     else :
         print("hold")
-        send("holding")
+ 
 
