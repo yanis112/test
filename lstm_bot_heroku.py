@@ -263,18 +263,21 @@ def trade():
             try:
                sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
                print("sell done")
+               break
             except:
                print("sell failed, trying again")
                time.sleep(20)
                try:
                    sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
                    print("sell done")
+                   break
                except:
                    print("sell failed,trying again")
                    time.sleep(20)
                    try:
                          sellOrder=client_ftx.place_order(market=f"BTC/USD",side="sell",price=None,size=cryptoAmount,type='market')
                          print("sell done")
+                         break
                    except:
                          print("failed")
                              
