@@ -215,7 +215,8 @@ def trade():
     data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','1000 m ago UTC'))  #'30 m ago UTC'
     prix=data2[1].tolist()
     volume=data2[5].tolist()
-    prix1=destring(prix) 
+    prix1=destring(prix)
+    prix2=destring(prix) 
     prix1=[prix1[i]-prix1[i-1] if i>0 else prix1[i] for i in range(len(prix1))]
     volume1=destring(volume) 
 
@@ -232,8 +233,8 @@ def trade():
 
 
     if action[0]>=action[1] and not is_bought() :
-        print("Buy: " + formatPrice(prix1[-1]))
-        quantityBuy = float(fiatAmount)/prix1[-1]
+        print("Buy: " + formatPrice(prix2[-1]))
+        quantityBuy = float(fiatAmount)/prix2[-1]
         time.sleep(20)
         try:
             buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
@@ -257,7 +258,7 @@ def trade():
 
 
     elif action[1]>action[0] and is_bought() :
-        print("Sell: " + formatPrice(prix1[-1]))
+        print("Sell: " + formatPrice(prix2[-1]))
         for i in range(3):
             time.sleep(20)
             try:
