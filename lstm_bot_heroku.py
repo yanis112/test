@@ -47,7 +47,7 @@ def trade():
     #récuérer les poids du Denoiser et du LSTM grâce à GitHub
     #!git clone https://github.com/yanis112/LSTM_weight.git
     checkpoint_path1='denoiser_30_weight.hdf5'
-    checkpoint_path2='lstm_30_weight_volume.hdf5'
+    checkpoint_path2='lstm_normalized_weight.hdf5'
 
     def destring(list):
         a=[]
@@ -56,22 +56,52 @@ def trade():
         return(a)
 
     #fonctions de normalisation dénormalisation des prix
-    def normalize(list):   
-      maxi=max(list)
-      mini=min(list)
+    import statistics as st
+
+
+    #Récupération des prix
+    api_key='K2MmwHx4c4xKDP0LWSfuDCNMuFUOtU64U4OKuRYncY7ZPCPgJEUIW9xucrdrI5UV'
+    api_secret='iLb0ZDB1bKMZ8o6mTXAW5xtmF4ULtwDigVuQLXCntUh0MUesjfA5jcndAJdAxrc4'
+    client_binance=binance.client.Client(api_key,api_secret)
+    client_binance.get_account()
+    data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','1000000 m ago UTC'))  #'30 m ago UTC'
+    prix=data2[1].tolist()
+    volume=data2[5].tolist()
+    prix1=destring(prix)
+    prix1=[prix1[i]-prix1[i-1] if i>0 else prix1[i] for i in range(len(prix1))]
+    volume1=destring(volume) 
+
+
+    ecart=st.stdev(prix1[-50000:])
+    moy=st.mean(prix1[-50000:])
+    moy2=st.mean(volume1[-50000:])
+    ecart2=st.stdev(volume1[-50000:])
+
+
+
+    
+
+    def normalize(list):
       a=[]
       for i in list:
-        if (maxi-mini)==0:
-          a.append(0.5)
-        if (maxi-mini)!=0:
-          a.append((i-mini)/(maxi-mini))
+        a.append((i-moy)/ecart)
       return(a)
 
-    def denormalize(list):
+    def normalize_vol(list):
       a=[]
       for i in list:
-          a.append(i*(maxi-mini)+mini)
+        a.append((i-moy2)/ecart2)
       return(a)
+
+    def moyenne_mob(list,period):
+      moy=[]
+      for i in range(len(list)):
+        if i>=period-1:
+          moy.append(st.mean(list[i-period+1:i+1]))
+        else:
+          moy.append(list[i])
+      return(moy)
+
 
     #Denoising Autoencoder
     from tensorflow.keras.constraints import max_norm
@@ -186,12 +216,13 @@ def trade():
     prix=data2[1].tolist()
     volume=data2[5].tolist()
     prix1=destring(prix) 
+    prix1=[prix1[i]-prix1[i-1] if i>0 else prix1[i] for i in range(len(prix1))]
     volume1=destring(volume) 
 
-    state_pri = np.array(prix1[-30:])
+    state_pri = np.array(prix1[-35:])
     state_vol = np.array(volume1[-30:])
-    state_pri=denoiser.predict(np.array([normalize(state_pri)]))[0].reshape(1,-1)[0]
-    state_vol=denoiser.predict(np.array([normalize(state_vol)]))[0].reshape(1,-1)[0]
+    state_pri= np.array(normalize(moyenne_mob(state_pri,3)[-30:])).reshape(-1,1)
+    state_vol= np.array(normalize(state_vol[0])).reshape(-1,1)
 
 
     #on détermine l'action
@@ -253,4 +284,3 @@ def trade():
     else :
         print("hold")
  
-
