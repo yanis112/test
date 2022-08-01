@@ -222,7 +222,7 @@ def trade():
 
     state_pri = np.array(prix1[-35:])
     state_vol = np.array(volume1[-30:])
-    state_pri= np.array(normalize(moyenne_mob(state_pri,3)[-30:])).reshape(-1,1)
+    state_pri= np.array(normalize(state_pri[-30:])).reshape(-1,1)
     state_vol= np.array(normalize_vol(state_vol)).reshape(-1,1)
 
 
