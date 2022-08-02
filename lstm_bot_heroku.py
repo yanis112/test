@@ -234,7 +234,7 @@ def trade():
 
     if action[0]>=action[1] and not is_bought() :
         print("Buy: " + formatPrice(prix2[-1]))
-        quantityBuy = float(fiatAmount)/prix2[-1]
+        quantityBuy = (float(fiatAmount)/prix2[-1])*0.95
         time.sleep(20)
         try:
             buyOrder=client_ftx.place_order(market=f"BTC/USD",side="buy",price=None,size=quantityBuy,type='market')
