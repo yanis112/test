@@ -47,7 +47,7 @@ def trade():
     #récuérer les poids du Denoiser et du LSTM grâce à GitHub
     #!git clone https://github.com/yanis112/LSTM_weight.git
     checkpoint_path1='denoiser_30_weight.hdf5'
-    checkpoint_path2='lstm_normalized_weight.hdf5'
+    checkpoint_path2='normalized_LSTM_weight.hdf5'
 
     def destring(list):
         a=[]
@@ -65,7 +65,7 @@ def trade():
     client_binance=binance.client.Client(api_key,api_secret)
     client_binance.get_account()
     data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','1000000 m ago UTC'))  #'30 m ago UTC'
-    prix=data2[1].tolist()
+    prix=data2[4].tolist()
     volume=data2[5].tolist()
     prix1=destring(prix)
     prix1=[prix1[i]-prix1[i-1] if i>0 else prix1[i] for i in range(len(prix1))]
