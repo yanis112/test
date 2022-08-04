@@ -213,7 +213,7 @@ def trade():
     client_binance=binance.client.Client(api_key,api_secret)
     client_binance.get_account()
     data2=pd.DataFrame(client_binance.get_historical_klines('BTCUSDT','30m','1000 m ago UTC'))  #'30 m ago UTC'
-    prix=data2[1].tolist()
+    prix=data2[4].tolist()
     volume=data2[5].tolist()
     prix1=destring(prix)
     prix2=destring(prix) 
