@@ -232,7 +232,7 @@ def trade():
 
 
 
-    if action[0]>=action[1] and not is_bought() :
+    if action[1]>=action[0] and not is_bought() :
         print("Buy: " + formatPrice(prix2[-1]))
         quantityBuy = (float(fiatAmount)/prix2[-1])*0.95
         time.sleep(20)
@@ -257,7 +257,7 @@ def trade():
 
 
 
-    elif action[1]>action[0] and is_bought() :
+    elif action[0]>=action[1] and is_bought() :
         print("Sell: " + formatPrice(prix2[-1]))
         for i in range(3):
             time.sleep(20)
