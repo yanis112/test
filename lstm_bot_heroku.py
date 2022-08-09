@@ -188,7 +188,7 @@ def trade():
       client_ftx = ftx.FtxClient(api_key='SH6WTFG2zpVi3-1JTAMbaf7tlDO6Ng1LbQTcAhgg',api_secret='stiLn1NlokBaHlfZOLTSkYxGaNpPwJIHQPmYO4Ac')    
       fiat=get_USD_balance()
       cryp=get_BTC_balance()
-      if fiat<2:
+      if fiat<3:
         return(True)
       else: 
         return(False)
@@ -220,7 +220,7 @@ def trade():
     prix1=[prix1[i]-prix1[i-1] if i>0 else prix1[i] for i in range(len(prix1))]
     volume1=destring(volume) 
 
-    state_pri = np.array(prix1[-35:])
+    state_pri = np.array(prix1[-30:])
     state_vol = np.array(volume1[-30:])
     state_pri= np.array(normalize(state_pri[-30:])).reshape(-1,1)
     state_vol= np.array(normalize_vol(state_vol)).reshape(-1,1)
@@ -232,7 +232,7 @@ def trade():
 
 
 
-    if action[1]>=action[0] and not is_bought() :
+    if action[0]>=action[1] and not is_bought() :
         print("Buy: " + formatPrice(prix2[-1]))
         quantityBuy = (float(fiatAmount)/prix2[-1])*0.95
         time.sleep(20)
@@ -257,7 +257,7 @@ def trade():
 
 
 
-    elif action[0]>=action[1] and is_bought() :
+    elif action[1]>=action[0] and is_bought() :
         print("Sell: " + formatPrice(prix2[-1]))
         for i in range(3):
             time.sleep(20)
